@@ -10,10 +10,14 @@ app.get("/", (req, res ) => {
 })
 
 
-const {createData, readData, generateToken} = require("./controller")
+const {createData, readData, generateToken, bacaID, newUser} = require("./controller")
 app.post("/create", createData)
 app.post("/read", readData)
 app.post("/gen", generateToken)
+app.get("/baca", bacaID)
+app.post("/new", newUser)
+
+
 
 app.listen(port, () => {
     console.log(`running on port ${port}`)

@@ -28,7 +28,9 @@ async function createData(req, res) {
         console.log(cek.rowCount)
         if(cek.rowCount === 1){
             const data= await pool.query (`INSERT INTO data ( suhu, kelembapan, id_user) VALUES ($1, $2, $3)`, [suhu, kelembapan, x.data.id])
-            res.status(200).json(data)
+            res.status(200).json(data.rowCount)
+        }else{
+          res.status(200).json({msg:"salah alamat"})
         }
     } catch (error) {
         console.log(error)
@@ -62,4 +64,33 @@ try {
     console.log(err)
 }}
 
-module.exports = { createData, readData, generateToken };
+async function bacaID (req,res){
+  try {
+    const baca = await pool.query (`SELECT * FROM identitas`)
+    res.status(200).json(baca.rows)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+async function newUser (req,res){
+  let {nama} = req.body
+  nama = nama.toLowerCase()
+  // console.log(nama)
+  try {
+    const cek = await pool.query(`SELECT * FROM identitas WHERE nama = '${nama}' `)
+    if (cek.rowCount === 0){
+      const user = await pool.query(`INSERT INTO identitas (nama) VALUES ('${nama}')`)
+      if (user.rowCount === 1){
+        res.status(200).json({msg: "Berhasil"})
+      }else{
+        res.status(200).json({msg: "Gagal"})
+      }
+    }else{
+      res.status(200).json({msg: "Nama sudah ada"})
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
+module.exports = { createData, readData, generateToken,bacaID, newUser};

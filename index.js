@@ -10,13 +10,13 @@ app.get("/", (req, res ) => {
 })
 
 
-const {createData, readData, generateToken, bacaID, newUser} = require("./controller")
+const {createData, readData, generateToken, bacaID, newUser, cekToken} = require("./controller")
 app.post("/create", createData)
 app.post("/read", readData)
 app.post("/gen", generateToken)
 app.get("/baca", bacaID)
 app.post("/new", newUser)
-
+app.post("/cek", cekToken)
 
 
 app.listen(port, () => {

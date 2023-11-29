@@ -73,7 +73,7 @@ async function generateToken(req, res) {
   if (rhs == process.env.KUNCI_RHS) {
     try {
       const token = jwt.sign(user, secretKey, { expiresIn: '1m', noTimestamp: true });
-      res.status(200).json(token);
+      res.status(200).send(token);
     } catch (err) {
       console.log(err);
     }
